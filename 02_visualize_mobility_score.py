@@ -31,7 +31,7 @@ running_average_default = 20 # default number of consecutive genes to take into 
 running_average_default_small_contigs = 5 # default number of consecutive genes to take into account to calculate running averages in small contigs
 project_path = Path().resolve().parent
 path_genomes = project_path / "data" / "genomes_metadata.csv"
-path_mobility = project_path / "reults" / "intermediate" / "mobility_frame.csv"
+path_mobility = project_path / "results" / "intermediate" / "mobility_frame.csv"
 path_pangenome = project_path / "data" / "pangenome.tsv"
 output_path_plots = project_path / "results" / "mobility_plots"
 output_path_files = project_path / "results" / "mobility_files"
@@ -169,5 +169,5 @@ def mobility_file(order, genome, genomes, full):
 genomes_filtered = filter_species(genomes=genomes)
 full = pd.merge(genomes_filtered, pangenome, on='genome', how='left')
 full_order = determine_order(pangenome)
-mobility_plot(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
+#mobility_plot(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
 mobility_file(order=full_order, genome=sys.argv[1], genomes=genomes, full=full)
