@@ -16,8 +16,6 @@ Output file:
 # import statements
 import pandas as pd
 from pathlib import Path
-import matplotlib.pyplot as plt
-import numpy as np
 from Bio import AlignIO
 from Bio import Phylo
 from Bio.Phylo.TreeConstruction import DistanceCalculator

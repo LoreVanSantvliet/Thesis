@@ -5,8 +5,8 @@
 ls ../results/intermediate/filtered_faas | while read species
 do
 	ls ../results/intermediate/filtered_faas/"$species"/*.faa > ../results/intermediate/supermatrix/faapaths.txt
-	$scarap core-pipeline ../results/intermediate/supermatrix/faapaths.txt core -t 4
-	$scarap supermatrix ../results/intermediate/supermatrix/faapaths.txt core/coregenome.tsv supermatrix
+	scarap core-pipeline ../results/intermediate/supermatrix/faapaths.txt core -t 4
+	scarap supermatrix ../results/intermediate/supermatrix/faapaths.txt core/coregenome.tsv supermatrix
 	cp supermatrix/supermatrix_aas.fasta ../results/intermediate/supermatrix/"$species".fasta
 	rm -r supermatrix
 	rm -r core

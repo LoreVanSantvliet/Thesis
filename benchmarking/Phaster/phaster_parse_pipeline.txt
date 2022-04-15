@@ -1,0 +1,19 @@
+Overview of the phaster benchmarking pipeline
+
+# General part (not phaster-specific)
+
+select_benchmark_genomes.sh: selects 50 genomes from the /results/intermediate/genomes_species.csv file
+download_benchmark_genomes.sh: downloads multi-fasta files (genomic, GenBank) for these 50 genomes from NCBI.
+
+# Running phaster and extracting results
+
+01_submit_phaster.sh: submits jobs to phaster, saves output files, named <genome>_job.txt
+02_get_job_ids.sh: extracts job_ids from the jobs output files, puts them in job_ids.txt file
+03_status_update_phaseter.sh: gets a status update on the phaster jobs, using the job_ids, and saves the output files. Ultimately, the final phaster output files will be saved in these files, named <genome>.txt.
+04_remove_job_files.sh: removes the job files.
+
+# Parsing results
+
+fix_newline.sh: fixes newline mismatch, needs to be run as a command with arguments: "fix_newline.sh ../../results/intermediate/benchmarking/phaster/*.txt"
+ParsePhaster.ipynb 
+

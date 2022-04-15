@@ -17,8 +17,6 @@ Output file:
 # import statements
 import pandas as pd
 from pathlib import Path
-import matplotlib.pyplot as plt
-import numpy as np
 from Bio import AlignIO
 from Bio import Phylo
 from Bio.Phylo.TreeConstruction import DistanceCalculator
@@ -44,9 +42,11 @@ def generate_genetree(orthogroup, species):
 
 # generate gene tree for all species, for all orthogroups within that species
 for species in pangenome.gtdb_species.drop_duplicates():
-    for orthogroup in pangenome.orthogroup.drop_duplicates():
-        print(orthogroup)
-        generate_genetree(orthogroup, species)
+    if(exists(output_path / species)==False):
+        !mkdir $output_path/$species
+        for orthogroup in pangenome.orthogroup.drop_duplicates():
+            print(orthogroup)
+            generate_genetree(orthogroup, species)
     print(str(species + " done"))
 
 
