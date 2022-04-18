@@ -169,5 +169,5 @@ def mobility_file(order, genome, genomes, full):
 genomes_filtered = filter_species(genomes=genomes)
 full = pd.merge(genomes_filtered, pangenome, on='genome', how='left')
 full_order = determine_order(pangenome)
-#mobility_plot(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
+mobility_plot(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
 mobility_file(order=full_order, genome=sys.argv[1], genomes=genomes, full=full)

@@ -5,5 +5,5 @@
 tail -n+2 ../../../results/intermediate/benchmarking/genomes_species_benchmark.csv | cut -d ',' -f 1 | while read genome
 do
 	echo $genome
-	echo $genome,$(head ../../../results/intermediate/benchmarking/phaster/${genome}_job.txt | cut -d '"' -f 4) >> ../../../results/intermediate/benchmarking/phaster/job_ids.txt
+	echo $genome,$(head ../../../results/intermediate/benchmarking/phaster/${genome}_job.txt | cut -d '"' -f 4) >> ../../../results/intermediate/benchmarking/phaster_raw/job_ids.txt
 done

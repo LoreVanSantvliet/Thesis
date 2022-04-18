@@ -7,7 +7,7 @@ Parses a user supplied, raw ConjScan report into a file containing contigs and g
 
 Input files: 
 <genome>.txt: this is a raw ConjScan report.
-Can be obtained from https://galaxy.pasteur.fr/root?tool_id=toolshed.pasteur.fr%2Frepos%2Fodoppelt%2Fconjscan%2FConjScan%2F1.0.2, where genomic .faa files (translated CDS) arae uploaded, and the following options need to be chosen:
+Can be obtained from https://galaxy.pasteur.fr/root?tool_id=toolshed.pasteur.fr%2Frepos%2Fodoppelt%2Fconjscan%2FConjScan%2F1.0.2, where genomic .faa files (translated CDS) are uploaded, and the following options need to be chosen:
 The type of dataset to deal with: ordered replicon
 Conjugative element to detect: typeFATA
 Tune or leave default values to Hmmer options: default
