@@ -31,6 +31,7 @@ genome_file=sys.argv[1]
 file = pd.read_csv(input_path / genome_file, sep="\t")
 file["contig"]=pd.DataFrame.from_records(file['hit_id'].apply(lambda s: s.split(sep='|')))[1]
 file["contig"]=pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='_')))[0] + "_" +pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='_')))[1]
+file["MGE"]=pd.DataFrame.from_records(file['sys_id'].apply(lambda s: s.split(sep='_')))[3]
 file["gene"]=file.hit_pos
-file_final = file.loc[:,['contig', 'gene']]
+file_final = file.loc[:,['contig', 'MGE', 'gene']]
 file_final.to_csv(result_path / str(genome_file))
