@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-"""Generates species trees using neighbour joining (NJ), given supermatrices, which are concatenated alignements of core genes.
+"""Generates species trees using neighbour joining (NJ), given supermatrices, which are concatenated alignments of core genes.
 
-For all species in the dataset, an unrooted species tree is generated using NJ, in newick format.
+For all species in the dataset, a distancematrix is created (biopython), from which an unrooted species tree is generated using NJ (biopython), in newick format.
 
 Input files: 
 <species>.fasta: this is a FASTA file containing the supermatrix, which is a concatenated alignment of the amino acid sequences of all core genes of all genomes belonging to a species.

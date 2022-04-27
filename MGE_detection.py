@@ -3,7 +3,7 @@
 
 """Performs MGE detection in genomes.
 
-Uses the phyletic distribution-based mobility scores of orthogroups to detect MGEs (mobile genetic elements) in contigs. The MGEs are returned in tabular format, where all gene numbers (as appearing in the contig of coice) belonging to a particular MGE are listed. The way this script sould be run is as follows: python MGE_detection.py <genome>-<contig>.csv, where the <genome>-<contig>.csv file is present in the input path (see script parameters).
+Uses the phyletic distribution-based mobility scores of orthogroups to detect MGEs (mobile genetic elements) in contigs. The MGEs are returned in tabular format, where all gene numbers (as appearing in the contig of choice) belonging to a particular MGE are listed. The way this script sould be run is as follows: python MGE_detection.py <genome>-<contig>.csv, where the <genome>-<contig>.csv file is present in the input path (see script parameters).
 
 Input files:
 <genome>-<contig>.csv: this is a csv file containing the following columns: order (order of this particular gene in this contig), orthogroup (orthogroup ID), gene (gene ID), accessory_fraction (mobility score), count (how many times does this orthogroup appear in this genome), accessory (is this particular gene accessory in the species to which the genome belongs). 
@@ -26,10 +26,13 @@ fraction_threshold=0.1
 project_path = Path().resolve().parent
 input_path = project_path / "results" / "mobility_files"
 output_path = project_path / "results" / "MGE_files_contig"
+output_path_simple = project_path / "results" / "MGE_files_contig_simple"
 
 # import data
 if(output_path.exists()==False):
     os.mkdir(output_path)
+if(output_path_simple.exists()==False):
+    os.mkdir(output_path_simple)
 genome_contig_file=sys.argv[1]
 frame=pd.read_csv(input_path / genome_contig_file, index_col=0)
 
@@ -37,13 +40,13 @@ def end_detection(mob_frame):
     # The index of the end boundary gene of the MGE equals the index of the last gene not belonging to the MGE (returned by applying the get_indices_lengths function on the mobility frame in reverse order) plus the length of the MGE. The gene_nr of thi bundary equals this index +1.
     genes,lengths=get_indices_lengths(mob_frame[::-1])
     end_genes=list(np.array(genes)+np.array(lengths))
-    return [gene+1 for gene in end_genes][::-1]
+    return [gene+1 for gene in end_genes][::-1], lengths[::-1]
 
 def start_detection(mob_frame):
     # The index of the start boundary gene of the MGE equals the index of the first gene not belonging to the MGE (returned by applying the get_indices_lengths function on the mobility frame) minus the length of the MGE. The gene_nr of this bundary equals this index +1.
     genes,lengths=get_indices_lengths(mob_frame)
     start_genes=list(np.array(genes)-np.array(lengths))
-    return [gene+1 for gene in start_genes]
+    return [gene+1 for gene in start_genes], lengths
 
 def get_indices_lengths(frame, score_threshold=score_threshold, fraction_threshold=fraction_threshold, n_threshold=n_threshold):
     """Returns the index of the first gene not belonging to an MGE anymore when looping through consecutive genes in a contig, and length of the MGE."""
@@ -74,23 +77,65 @@ def get_indices_lengths(frame, score_threshold=score_threshold, fraction_thresho
                 exc=0
     return indices,lengths
 
+def detect_mges_simple(frame):
+    i=0
+    start_genes=[]
+    end_genes=[]
+    for index,row in frame.iterrows():
+        consecutive=row.accessory|(row['count']>1)
+        if consecutive:
+            i=i+1
+        else:
+            if i>n_threshold:
+                start_genes.append(index+1-i)
+                end_genes.append(index+1)
+                i=0
+    return start_genes, end_genes
+
 def generate_output(genome_contig_file):
     """Generates csv files, containing a columns with the contig, a column with a number indicating an individual MGE, and a columns with gene_nrs, indicating the genes that belong to a particular MGE."""
     contig_extension=genome_contig_file.split('-')[1]
     contig=str(contig_extension.split('.')[0]+'.'+contig_extension.split('.')[1])
     MGE_list=[]
     mob_frame=pd.read_csv(input_path / genome_contig_file, index_col=0)
-    start_genes=start_detection(mob_frame)
-    end_genes=end_detection(mob_frame)
+    start_genes, start_lengths=start_detection(mob_frame)
+    end_genes, end_lengths=end_detection(mob_frame)
+    
+    MGE=0
     if (len(start_genes)>0)&(len(end_genes)>0):
-        if(len(start_genes)!=len(end_genes)):
-            print("PROBLEM: start and end boundary mismatch")
         for i in range(0,len(start_genes)):
-            for gene in range(start_genes[i], end_genes[i]+1):
-                MGE_list.append({'contig':contig,'MGE':i+1,'gene_nr':gene})
+            for j in range(0, len(end_genes)):
+                if (start_genes[i]+start_lengths[i] >= end_genes[j])&(end_genes[j]-end_lengths[j] <= start_genes[i])&(start_genes[i]<end_genes[j]):
+                    MGE=MGE+1
+                    for gene in range(start_genes[i], end_genes[j]+1):
+                        MGE_list.append({'contig':contig,'MGE':MGE,'gene_nr':gene})
+    
+    #if (len(start_genes)>0)&(len(end_genes)>0):
+    #    if(len(start_genes)!=len(end_genes)):
+    #        print("PROBLEM: start and end boundary mismatch")
+    #    for i in range(0,len(start_genes)):
+    #        for gene in range(start_genes[i], end_genes[i]+1):
+    #            MGE_list.append({'contig':contig,'MGE':i+1,'gene_nr':gene})
+    
     MGE_frame = pd.DataFrame.from_records(MGE_list)
     if(not MGE_frame.empty):
-        MGE_frame.to_csv(output_path / genome_contig_file)       
+        MGE_frame.to_csv(output_path / genome_contig_file) 
+
+def generate_output_simple(genome_contig_file):
+    """Generates csv files, containing a columns with the contig, a column with a number indicating an individual MGE, and a columns with gene_nrs, indicating the genes that belong to a particular MGE."""
+    contig_extension=genome_contig_file.split('-')[1]
+    contig=str(contig_extension.split('.')[0]+'.'+contig_extension.split('.')[1])
+    MGE_list=[]
+    mob_frame=pd.read_csv(input_path / genome_contig_file, index_col=0)
+    start_genes, end_genes=detect_mges_simple(mob_frame)
+    for i in range(0,len(start_genes)):
+        for gene in range(start_genes[i], end_genes[i]+1):
+            MGE_list.append({'contig':contig,'MGE':i+1,'gene_nr':gene})
+    MGE_frame = pd.DataFrame.from_records(MGE_list)
+    if(not MGE_frame.empty):
+        MGE_frame.to_csv(output_path_simple / genome_contig_file) 
 
 generate_output(genome_contig_file)
+generate_output_simple(genome_contig_file)
+
 

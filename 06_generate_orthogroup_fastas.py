@@ -3,7 +3,7 @@
 
 """Generates FASTA files of orthogroups, per species.
 
-Collects nulceotide sequences from ffn files, where they are ordered per genome, and transfers them to FASTA files, where they are ordered per orthogroup. These FASTA files are generated per orthigroup, per species.
+Collects nucleotide sequences from ffn files, where they are ordered per genome, and transfers them to FASTA files, where they are ordered per orthogroup. These FASTA files are generated per orthogroup, per species.
 
 Input files: 
 <species>.fasta: this is a FASTA file containing the supermatrix, which is a concatenated alignment of the amino acid sequences of all core genes of all genomes belonging to a species.

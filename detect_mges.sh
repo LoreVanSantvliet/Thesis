@@ -22,3 +22,20 @@ do
 	fi
 	echo $genome_file
 done
+
+
+mkdir ../results/MGE_files_simple
+
+ls ../results/MGE_files_contig_simple | while read genome_contig_file
+do
+        genome=${genome_contig_file%-[A-Z]*[0-9]*.[0-9]*.csv}
+        genome_file=$genome".csv"
+        if [[ ! -e ../results/MGE_files/$genome_file ]]
+        then
+                cp ../results/MGE_files_contig/$genome_contig_file ../results/MGE_files_simple/$genome_file
+        else
+                tail -n +2 ../results/MGE_files_contig_simple/$genome_contig_file >> ../results/MGE_files_simple/$genome_file
+        fi
+        echo $genome_file
+done
+

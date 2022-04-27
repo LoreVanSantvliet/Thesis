@@ -1,7 +1,7 @@
 File and directory transfer
 
 from computer onto server
-scp Desktop/Thesis/Project/code/10_compare_trees_parallel.sh lorevs@143.129.141.185:/media/ssdsata/lorevs/Project/code
+scp ~/Desktop/Thesis/Project/code/10_compare_trees_parallel.sh lorevs@143.129.141.185:/media/ssdsata/lorevs/Project/code
 scp Desktop/Thesis/Project/results/intermediate/filtered_pangenome.csv lorevs@143.129.141.185:~/Project/results/intermediate
 scp Desktop/Thesis/Project/code/07_generate_msa_genetrees_parallel.sh lorevs@143.129.141.185:~/Project/code
 scp Desktop/Thesis/Project/code/08_generate_gene_trees.py lorevs@143.129.141.185:/media/ssdsata/lorevs/Project/code
@@ -12,6 +12,7 @@ scp -r Downloads/ICEfinder_linux lorevs@143.129.141.185:/media/ssdsata/lorevs/Pr
 
 
 back to computer
+scp -r lorevs@143.129.141.185:/media/ssdsata/lorevs/Project/results/intermediate/tree_mobility_frames ~/Desktop/Thesis/Project/results/intermediate
 scp -r lorevs@143.129.141.185:Project/results/intermediate/species_trees Desktop/Thesis/Project/results/intermediate
 scp -r lorevs@143.129.141.185:Project/results/intermediate/msas Desktop/Thesis/Project/results/intermediate
 scp lorevs@143.129.141.185:/media/ssdsata/lorevs/Project/code/07_generate_msa_genetrees_parallel.sh ~/Desktop/Thesis/Project/code
