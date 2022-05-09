@@ -16,5 +16,5 @@ download_benchmark_genomes.sh: downloads multi-fasta files (genomic, GenBank) fo
 
 fix_newline.sh: fixes newline mismatch, needs to be run as a command:
 ./fix_newline.sh
-parse_phasetr.sh: script to parse all files in the phaster_raw directory. The results are stored in the phaster_parsed directory.
+parse_phaster.sh: script to parse all files in the phaster_raw directory. The results are stored in the phaster_parsed directory.
 

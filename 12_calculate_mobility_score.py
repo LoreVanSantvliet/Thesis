@@ -3,13 +3,15 @@
 
 """Calculates tree based mobility scores of orthogroups.
 
-Calculates mobility scores of orthogroups of a phylogenetic clade, based on the weighted averages of treeko distances between species and gene trees for these orthogroups in the different species. 
+Calculates mobility scores of orthogroups of a phylogenetic clade, based on the weighted averages of treeko distances between species and gene trees for these orthogroups in the different species. For these weighted averages, the weight given to a treeko distance in a particular species is proportional to the number of genomes present in this species.
 
 Input files: 
-
+<species>.csv (in tree_mobility frames): this is a csv file with columns orthogroup and tree_score. The tree_score column represents the mobility score of an orthogroup within one particular species.
+genomes_species.csv: this is a csv file with columns gtdb_species and genome, indicating which genomes belong to which species. 
+mobility_frame.csv: this is a csv file with the following columns: orthogroup, species_count, genomes_count, accessory_count, core_count, accessory_fraction. Accessory_fraction represents the phyletic distribution pattern-based mobility score.
 
 Output file:
-
+mobility_frame.csv:this is a csv file like the input file names 'mobility_frame.cv', with extra columns counts_mob and tree_score, indicating the number of genomes belonging to a species where this orthogroup is present, and the tree-based mobility score, respectively.
 """
 
 # import statements

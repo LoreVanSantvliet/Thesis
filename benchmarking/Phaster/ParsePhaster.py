@@ -30,6 +30,7 @@ gff_path=project_path / "data" / "legen_v4_dereplicated_gffs"
 genome_file=sys.argv[1]
 genome=str(genome_file.split('.')[0]+'.'+genome_file.split('.')[1])
 print(genome)
+genome_file_new=genome+".csv"
 
 def read_phaster(file, multi_contig=True):
     """Reads a phaster output file and generates a dataframe with this information."""
@@ -140,7 +141,7 @@ def transform_frame(phaster):
 def write_output(MGE_frame):
     """Writed the output into a csv file in the correct directory."""
     if (not MGE_frame.empty):
-        MGE_frame.to_csv(output_path / genome_file)
+        MGE_frame.to_csv(output_path / genome_file_new)
 
 phaster=read_phaster(input_path / genome_file)
 phaster=add_start_end_gene(genome, phaster)

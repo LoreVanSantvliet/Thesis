@@ -1,8 +1,18 @@
 #!/bin/bash
 # Lore Van Santvliet 07/04/2022
-# This script runs ConjScan on multiple genomes. It needs 
+# This script runs ConjScan on multiple genomes.
 
-for seq in ../../../results/intermediate/benchmarking/*faa; do
+# method can either be "training" or "benchmarking"
+method=$1
+
+input_path=../../../results/intermediate/$method
+output_path=../../../results/intermediate/$method/conjscan_raw_doublecheck
+
+mkdir $output_path
+
+mkdir $output_path
+
+for seq in $input_path/*faa; do
 	name=${seq##*/}
 	name=${name%_translated_cds.faa}
 	echo ${name}
@@ -11,7 +21,7 @@ for seq in ../../../results/intermediate/benchmarking/*faa; do
 		--replicon-topology linear \
                 --models-dir Conjugation \
                 --sequence-db "$seq"
-	mv mac*/all_systems.tsv ../../../results/intermediate/benchmarking/conjscan_raw/${name}.csv
+	mv mac*/all_systems.tsv $output_path/${name}.csv
 	rm -r mac*
 done
 

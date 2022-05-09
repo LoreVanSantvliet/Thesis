@@ -22,6 +22,8 @@ import matplotlib.pyplot as plt
 import sys
 from matplotlib.lines import Line2D
 
+output_dir=sys.argv[2]
+
 # script parameters
 genomes_per_species = 10 # minimal number of genomes per species
 threshold_accessory = 0.9 # fraction of genomes per species an orthogroup can be present in at max. to be considered accessory
@@ -33,9 +35,9 @@ project_path = Path().resolve().parent
 path_genomes = project_path / "data" / "genomes_metadata.csv"
 path_mobility = project_path / "results" / "intermediate" / "mobility_frame.csv"
 path_pangenome = project_path / "data" / "pangenome.tsv"
-output_path_plots = project_path / "results" / "mobility_plots"
+output_path_plots = project_path / "results" / "mobility_plots" / output_dir
 output_path_plots_2 = project_path / "results" / "tree_mobility_plots"
-output_path_files = project_path / "results" / "mobility_files"
+output_path_files = project_path / "results" / "mobility_files" / output_dir
 
 # import data
 genomes = pd.read_csv(path_genomes).loc[:,'genome':'gtdb_species']
@@ -194,5 +196,5 @@ def mobility_file(genomes, genome, full, order):
 genomes_filtered = filter_species(genomes=genomes)
 full = pd.merge(genomes_filtered, pangenome, on='genome', how='left')
 full_order = determine_order(pangenome)
-mobility_plots(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
+#mobility_plots(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
 mobility_file(genomes=genomes, genome=sys.argv[1], full=full, order=full_order)

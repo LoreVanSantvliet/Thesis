@@ -23,15 +23,30 @@ import sys
 
 # script parameters
 project_path=Path().resolve().parent.parent.parent
-input_path=project_path / "results" / "intermediate" / "benchmarking" / "conjscan_raw"
-result_path=project_path / "results" / "intermediate" / "benchmarking" / "conjscan_parsed"
+input_path=project_path / "results" / "intermediate" / "training" / "conjscan_raw"
+result_path=project_path / "results" / "intermediate" / "training" / "conjscan_parsed"
 
 genome_file=sys.argv[1]
 
 file = pd.read_csv(input_path / genome_file, sep="\t")
+#print(file.hit_id)
 file["contig"]=pd.DataFrame.from_records(file['hit_id'].apply(lambda s: s.split(sep='|')))[1]
-file["contig"]=pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='_')))[0] + "_" +pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='_')))[1]
+#print(file.contig)
+file["contig_1"]=pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='.')))[0]
+file["contig_1"]=pd.DataFrame.from_records(file['contig_1'].apply(lambda s: s.split(sep='_')))[1]
+#print(file.contig_1)
+file["contig_2"]=pd.DataFrame.from_records(file['contig'].apply(lambda s: s.split(sep='.')))[1]
+#print(file.contig_2)
+file["contig_2"]=pd.DataFrame.from_records(file['contig_2'].apply(lambda s: s.split(sep='_')))[0]
+#print(file.contig_2)
+#file["contig"]=str(file['contig_1']+"."+file['contig_2'])
+file['contig'] = file[['contig_1', 'contig_2']].agg('.'.join, axis=1)
+#print(file.contig)
 file["MGE"]=pd.DataFrame.from_records(file['sys_id'].apply(lambda s: s.split(sep='_')))[3]
-file["gene"]=file.hit_pos
-file_final = file.loc[:,['contig', 'MGE', 'gene']]
+file["gene_nr"]=file.hit_pos
+file_final = file.loc[:,['contig', 'MGE', 'gene_nr']]
 file_final.to_csv(result_path / str(genome_file))
+
+
+
+
