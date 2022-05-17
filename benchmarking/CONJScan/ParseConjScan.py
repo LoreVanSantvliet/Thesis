@@ -23,8 +23,8 @@ import sys
 
 # script parameters
 project_path=Path().resolve().parent.parent.parent
-input_path=project_path / "results" / "intermediate" / "training" / "conjscan_raw"
-result_path=project_path / "results" / "intermediate" / "training" / "conjscan_parsed"
+input_path=project_path / "results" / "intermediate" / "benchmarking" / "conjscan_raw"
+result_path=project_path / "results" / "intermediate" / "benchmarking" / "conjscan_parsed"
 
 genome_file=sys.argv[1]
 

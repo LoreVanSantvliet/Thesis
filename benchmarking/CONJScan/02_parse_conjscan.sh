@@ -3,8 +3,8 @@
 # This script removes the first three lines from conjscan output files, if this is required, and then it parses the file using the ParseConjScan.py script.
 
 # script parameters
-input_path=../../../results/intermediate/training/conjscan_raw
-#output_path=../../../results/intermediate/training/conjscan
+input_path=../../../results/intermediate/benchmarking/conjscan_raw
+output_path=../../../results/intermediate/benchmarking/conjscan_parsed
 
 mkdir $output_path
 

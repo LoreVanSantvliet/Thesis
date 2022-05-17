@@ -5,10 +5,20 @@
 # script parameters
 output_path=../results/intermediate/training
 
-# simple
+# baseline
 echo "10
 20
-30" > $output_path/simple_thresholds.txt
+30" > $output_path/baseline_thresholds.txt
+
+# simple
+echo -n "" > $output_path/simple_thresholds.txt
+for score_threshold in {0.2,0.3,0.4}
+do
+	for n_threshold in 10 20 30
+	do
+		echo $score_threshold $n_threshold >> $output_path/simple_thresholds.txt
+	done
+done
 
 # intermediate
 echo -n "" > $output_path/intermediate_thresholds.txt

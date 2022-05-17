@@ -21,6 +21,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import sys
 from matplotlib.lines import Line2D
+import os
 
 output_dir=sys.argv[2]
 
@@ -38,6 +39,9 @@ path_pangenome = project_path / "data" / "pangenome.tsv"
 output_path_plots = project_path / "results" / "mobility_plots" / output_dir
 output_path_plots_2 = project_path / "results" / "tree_mobility_plots"
 output_path_files = project_path / "results" / "mobility_files" / output_dir
+
+os.mkdir(output_path_plots)
+os.mkdir(output_path_files)
 
 # import data
 genomes = pd.read_csv(path_genomes).loc[:,'genome':'gtdb_species']
@@ -196,5 +200,5 @@ def mobility_file(genomes, genome, full, order):
 genomes_filtered = filter_species(genomes=genomes)
 full = pd.merge(genomes_filtered, pangenome, on='genome', how='left')
 full_order = determine_order(pangenome)
-#mobility_plots(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
+mobility_plots(genomes=genomes, genome=sys.argv[1], full=full, order=full_order, method="accessory_fraction")
 mobility_file(genomes=genomes, genome=sys.argv[1], full=full, order=full_order)
