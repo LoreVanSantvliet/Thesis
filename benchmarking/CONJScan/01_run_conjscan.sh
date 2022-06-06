@@ -2,11 +2,11 @@
 # Lore Van Santvliet 07/04/2022
 # This script runs ConjScan on multiple genomes.
 
-# method can either be "training" or "benchmarking"
+# method can either be "training", "benchmarking" or "other"
 method=$1
 
 input_path=../../../results/intermediate/$method
-output_path=../../../results/intermediate/$method/conjscan_raw_doublecheck
+output_path=../../../results/intermediate/$method/conjscan_raw
 
 mkdir $output_path
 

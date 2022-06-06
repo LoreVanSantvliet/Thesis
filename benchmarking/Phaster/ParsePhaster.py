@@ -21,10 +21,12 @@ import sys
 import os
 import json
 
+dir=sys.argv[2]
+
 # script parameters
 project_path=Path().resolve().parent.resolve().parent.resolve().parent
-input_path=project_path / "results" / "intermediate" / "benchmarking" / "phaster_raw"
-output_path=project_path / "results" / "intermediate" / "benchmarking" / "phaster_parsed"
+input_path=project_path / "results" / "intermediate" / dir / "phaster_raw"
+output_path=project_path / "results" / "intermediate" / dir / "phaster_parsed"
 gff_path=project_path / "data" / "legen_v4_dereplicated_gffs"
 
 genome_file=sys.argv[1]
@@ -82,6 +84,7 @@ def read_phaster(file, multi_contig=True):
     
 def get_genes_multi_contig(df, start, stop, contig):
     """Gets the gene numbers corresponding to locations specified in basepairs, for a contig."""
+    df = df[df.contig==contig].reset_index()
     return df[(df.start>=start) & (df.end<=stop) & (df.contig==contig)]
 
 def add_start_end_gene(genome, phaster, multi_contig=True):

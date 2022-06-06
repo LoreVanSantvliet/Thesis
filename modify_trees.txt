@@ -1,4 +1,0 @@
-sed -i '' 's/Inner[0-9]*:[0-9]*\.[0-9]*//g' tree1.nw
-sed -i '' 's/Inner[0-9]*:[0-9]*\.[0-9]*//g' tree2.nw
-
-

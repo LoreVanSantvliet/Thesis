@@ -1,2 +1,0 @@
-cut -f 1,2 -d ',' data/genomes_metadata.csv | egrep 'Lactobacillus' > data/genomes_Lactobacillus.csv
-
